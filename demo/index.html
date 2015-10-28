@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Exemplo</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="../css/multi-select-transfer.css" />
+
+        <script type="text/javascript" src="../js/multi-select-transfer.js"></script>
+
+    </head>
+    <body>
+        <div id="exemplo_1"></div>
+
+        <script type="text/javascript">
+
+            var data = {
+                origin: [
+                    {value: 1, name: 'Bhutan'},
+                    {value: 2, name: 'Bahamas'},
+                    {value: 3, name: 'Afghanistan'},
+                    {value: 4, name: 'China'},
+                    {value: 5, name: 'Croatia'},
+                    {value: 6, name: 'Denmark'},
+                    {value: 7, name: 'Barbados'},
+                    {value: 8, name: 'France'},
+                    {value: 9, name: 'Japan'},
+                    {value: 10, name: 'Brazil'},
+                ],
+                destiny: [
+                    {value: 11, name: 'Spain'},
+                    {value: 12, name: 'Paraguay'},
+                    {value: 13, name: 'Malaysia'},
+                    {value: 14, name: 'Australia'},
+                ]
+            };
+
+            var multi = new MultiSelectTransfer('#exemplo_1', data);
+            multi.init();
+
+        </script>
+    </body>
+</html>
