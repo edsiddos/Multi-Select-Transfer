@@ -57,8 +57,8 @@ var MultiSelectTransfer = function (elem, data) {
          * valores das caixa de seleção
          */
         // Ao dar duplo click em um option esta pode ser:
-        doubleClickAddOption(); // Move option para select destiny
-        doubleClickRemOption(); // Move option para select origin
+        doubleClickOriginOption(); // Move option para select destiny
+        doubleClickDestinyOption(); // Move option para select origin
 
         addOption();
         remOption();
@@ -79,7 +79,7 @@ var MultiSelectTransfer = function (elem, data) {
     this.setOrigin = function (data_origin) {
         data.origin = data_origin;
         origin();
-        doubleClickAddOption();
+        doubleClickOriginOption();
     };
 
     /**
@@ -100,7 +100,7 @@ var MultiSelectTransfer = function (elem, data) {
     this.setDestiny = function (data_destiny) {
         data.destiny = data_destiny;
         destiny();
-        doubleClickRemOption();
+        doubleClickDestinyOption();
     };
 
     /**
@@ -206,35 +206,57 @@ var MultiSelectTransfer = function (elem, data) {
     };
 
     /**
-     * Adiciona evente de mover option do select origin para destiny
-     * quando der duplo clique na select destiny
+     * Adiciona evento de mover option do select origin para destiny
      */
-    var doubleClickAddOption = function () {
+    var doubleClickOriginOption = function () {
         var options = document.querySelectorAll('#mst-origin option');
 
         for (key in options) {
-            options[key].addEventListener('dblclick', function () {
-                options[key].selected = true;
-                transferOptions('mst-origin', 'mst-destiny');
-                sortSelect('mst-destiny');
-            });
+            try {
+                options[key].addEventListener('dblclick', eventDoubleClickOriginOption);
+            } catch (error) {
+            }
         }
     };
 
     /**
-     * Adiciona evente de mover option do select origin para destiny
-     * quando der duplo clique na select destiny
+     * Ações executada ao dar duplo click em um option
+     * #mst-origin option
      */
-    var doubleClickRemOption = function () {
-        var options = document.querySelectorAll('#mst-origin option');
+    var eventDoubleClickOriginOption = function () {
+        this.selected = true;
+        transferOptions('mst-origin', 'mst-destiny');
+        sortSelect('mst-destiny');
 
-        for (key in options) {
-            options[key].addEventListener('dblclick', function () {
-                options[key].selected = true;
-                transferOptions('mst-origin', 'mst-destiny');
-                sortSelect('mst-destiny');
-            });
+        // Adiciona novamente evento pois os options foram removidos e reordenados
+        doubleClickDestinyOption();
+    };
+
+    /**
+     * "Adiciona" evento de mover option do select destiny para origin
+     */
+    var doubleClickDestinyOption = function () {
+        var options = document.querySelectorAll('#mst-destiny option');
+
+        try {
+            for (key in options) {
+                options[key].addEventListener('dblclick', eventDoubleClickDestinyOption);
+            }
+        } catch (error) {
         }
+    };
+
+    /**
+     * Ações executada ao dar duplo click em um option
+     * #mst-destiny option
+     */
+    var eventDoubleClickDestinyOption = function () {
+        this.selected = true;
+        transferOptions('mst-destiny', 'mst-origin');
+        sortSelect('mst-origin');
+
+        // Adiciona novamente evento pois os options foram removidos e reordenados
+        doubleClickOriginOption();
     };
 
     /**
@@ -244,6 +266,7 @@ var MultiSelectTransfer = function (elem, data) {
         document.querySelector('#multi-select-transfer #mst-select-add').onclick = function () {
             transferOptions('mst-origin', 'mst-destiny');
             sortSelect('mst-destiny');
+            doubleClickDestinyOption();
         };
     };
 
@@ -254,6 +277,7 @@ var MultiSelectTransfer = function (elem, data) {
         document.querySelector('#multi-select-transfer #mst-select-rem').onclick = function () {
             transferOptions('mst-destiny', 'mst-origin');
             sortSelect('mst-origin');
+            doubleClickOriginOption();
         };
     };
 
@@ -270,6 +294,7 @@ var MultiSelectTransfer = function (elem, data) {
 
             transferOptions('mst-origin', 'mst-destiny');
             sortSelect('mst-destiny');
+            doubleClickDestinyOption();
         };
     };
 
@@ -286,6 +311,7 @@ var MultiSelectTransfer = function (elem, data) {
 
             transferOptions('mst-destiny', 'mst-origin');
             sortSelect('mst-origin');
+            doubleClickOriginOption();
         };
     };
 
@@ -302,10 +328,13 @@ var MultiSelectTransfer = function (elem, data) {
             var options = document.querySelector(select).options;
 
             for (key in options) {
-                if (obj_search.test(options[key]['text'])) {
-                    options[key]['style']['display'] = '';
-                } else {
-                    options[key]['style']['display'] = 'none';
+                try {
+                    if (obj_search.test(options[key]['text'])) {
+                        options[key].style.display = '';
+                    } else {
+                        options[key].style.display = 'none';
+                    }
+                } catch (error) {
                 }
             }
 
