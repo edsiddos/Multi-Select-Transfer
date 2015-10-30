@@ -1,6 +1,6 @@
 
 
-var MultiSelectTransfer = function (elem, data) {
+var MultiSelect = function (elem, data) {
 
     var template;
     var element = document.querySelector(elem);

@@ -180,7 +180,7 @@ var locations = [
     {name: 'Reunion', value: 'RE'},
     {name: 'Romania', value: 'RO'},
     {name: 'Russian Federation', value: 'RU'},
-    {name: 'RWANDA', value: 'RW'},
+    {name: 'Rwanda', value: 'RW'},
     {name: 'Saint Helena', value: 'SH'},
     {name: 'Saint Kitts and Nevis', value: 'KN'},
     {name: 'Saint Lucia', value: 'LC'},
@@ -244,34 +244,33 @@ var locations = [
     {name: 'Zimbabwe', value: 'ZW'}
 ];
 
-var Location = function () {
-    var data = {
-        origin: new Array(),
-        destiny: new Array()
-    };
+var Location = function (data) {
+    data.origin = new Array();
+    data.destiny = new Array();
 
     var origin = new Array();
 
-    var count = Math.floor((Math.random() * 30) + 1);
+    var generateSequences = function () {
+        var aux = 0;
+        var count = Math.floor((Math.random() * 30) + 1);
+        var random_location = new Array();
 
-    while (count-- > 0) {
-        origin[count] = Math.floor(Math.random() * 200);
-        data.origin[count] = locations[origin[count]];
-    }
+        while (count-- > 0) {
+            aux = Math.floor(Math.random() * 200);
 
-    var aux = 0;
-    count = Math.floor((Math.random() * 30) + 1);
-
-    while (count-- > 0) {
-
-        aux = Math.floor(Math.random() * 200);
-
-        if (origin.indexOf(aux) == -1) {
-            data.destiny[count] = locations[aux];
-        } else {
-            count++;
+            if (origin.indexOf(aux) === -1) {
+                random_location[count] = locations[aux];
+                origin[count] = aux;
+            } else {
+                count++;
+            }
         }
-    }
 
-    console.log(data);
+        return random_location;
+    };
+
+    data.origin = generateSequences();
+    data.destiny = generateSequences();
+
+    return data;
 };

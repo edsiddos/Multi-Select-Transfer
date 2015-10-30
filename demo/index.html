@@ -2,44 +2,134 @@
 
 <html>
     <head>
-        <title>Exemplo</title>
+        <title>Exemple</title>
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="../css/multi-select-transfer.css" />
+        <!-- BOOTSTRAP -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <!-- BOOTSTRAP -->
 
-        <script type="text/javascript" src="../js/multi-select-transfer.js"></script>
+        <!-- MULTI-SELECT-TRANSFER -->
+        <link rel="stylesheet" href="../css/simple-multi-select.css" />
+        <script type="text/javascript" src="../js/simple-multi-select.js"></script>
+        <script type="text/javascript" src="locations.js"></script>
+        <!-- MULTI-SELECT-TRANSFER -->
+
+        <style type="text/css">
+            html {
+                position: relative;
+                min-height: 100%;
+            }
+
+            body {
+                padding-top: 70px;
+            }
+
+            .footer {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 60px;
+                background-color: #f5f5f5;
+                text-align: center;
+            }
+
+            .container {
+                width: auto;
+                max-width: 90%;
+                padding: 0 15px;
+            }
+
+            .container .text-muted {
+                margin: 20px 0;
+            }
+
+        </style>
 
     </head>
     <body>
-        <div id="exemplo_1"></div>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Simple Multi Select</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <!--
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        -->
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <h2>Loading new data</h2>
+
+                <div id="exemple"></div>
+
+                <button name="refresh" class="btn btn-sm btn-default">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                    New data
+                </button>
+
+                <button name="select_all_origin" class="btn btn-sm btn-default">
+                    <span class="glyphicon glyphicon-list"></span>
+                    Select all options left
+                </button>
+
+                <button name="select_all_destiny" class="btn btn-sm btn-default">
+                    <span class="glyphicon glyphicon-list"></span>
+                    Select all options right
+                </button>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted">Simple Multi Select - 2015</p>
+            </div>
+        </footer>
 
         <script type="text/javascript">
 
             var data = {
-                origin: [
-                    {value: 1, name: 'Bhutan'},
-                    {value: 2, name: 'Bahamas'},
-                    {value: 3, name: 'Afghanistan'},
-                    {value: 4, name: 'China'},
-                    {value: 5, name: 'Croatia'},
-                    {value: 6, name: 'Denmark'},
-                    {value: 7, name: 'Barbados'},
-                    {value: 8, name: 'France'},
-                    {value: 9, name: 'Japan'},
-                    {value: 10, name: 'Brazil'},
-                ],
-                destiny: [
-                    {value: 11, name: 'Spain'},
-                    {value: 12, name: 'Paraguay'},
-                    {value: 13, name: 'Malaysia'},
-                    {value: 14, name: 'Australia'},
-                ]
+                origin: null,
+                destiny: null
             };
 
-            var multi = new MultiSelectTransfer('#exemplo_1', data);
+            data = Location(data);
+
+            var multi = new MultiSelect('#exemple', data);
             multi.init();
+
+            document.querySelector('button[name=refresh]').onclick = function () {
+                data = Location(data);
+
+                multi.setOrigin(data.origin)
+                multi.setDestiny(data.destiny);
+            };
+
+            document.querySelector('button[name=select_all_origin]').onclick = function () {
+                multi.originSelect();
+            };
+
+            document.querySelector('button[name=select_all_destiny]').onclick = function () {
+                multi.destinySelect();
+            };
 
         </script>
     </body>
