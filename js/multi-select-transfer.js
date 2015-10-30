@@ -17,28 +17,28 @@ var MultiSelectTransfer = function (elem, data) {
      * Adiciona os eventos aos botões de adicionar e remover.
      */
     this.init = function () {
-        template = '<div id="multi-select-transfer">\
-                        <div id="mst-filters">\
-                            <div id="mst-filters-left">\
-                                <input type="text" id="mst-filter-origin" />\
+        template = '<div class="multi-select-transfer">\
+                        <div class="mst-filters">\
+                            <div class="mst-filters-left">\
+                                <input type="text" class="mst-filter-origin" />\
                             </div>\
-                            <div id="mst-filters-right">\
-                                <input type="text" id="mst-filter-destiny" />\
+                            <div class="mst-filters-right">\
+                                <input type="text" class="mst-filter-destiny" />\
                             </div>\
                         </div>\
-                        <div id="mst-selects">\
-                            <div id="mst-left">\
-                                <select multiple="multiple" name="' + data.name_select_origin + '[]" id="mst-origin"></select>\
+                        <div class="mst-selects">\
+                            <div class="mst-left">\
+                                <select multiple="multiple" name="' + data.name_select_origin + '[]" class="mst-origin"></select>\
                             </div>\
-                            <div id="mst-right">\
-                                <div id="mst-buttons">\
-                                    <button type="button" id="mst-select-add"> > </button>\
-                                    <button type="button" id="mst-select-rem"> < </button>\
-                                    <button type="button" id="mst-select-add-all"> >> </button>\
-                                    <button type="button" id="mst-select-rem-all"> << </button>\
+                            <div class="mst-right">\
+                                <div class="mst-buttons">\
+                                    <button type="button" class="mst-select-add"> > </button>\
+                                    <button type="button" class="mst-select-rem"> < </button>\
+                                    <button type="button" class="mst-select-add-all"> >> </button>\
+                                    <button type="button" class="mst-select-rem-all"> << </button>\
                                 </div>\
-                                <div id="mst-select-destiny">\
-                                    <select multiple="multiple" name="' + data.name_select_destiny + '[]" id="mst-destiny"></select>\
+                                <div class="mst-select-destiny">\
+                                    <select multiple="multiple" name="' + data.name_select_destiny + '[]" class="mst-destiny"></select>\
                                 </div>\
                             </div>\
                         </div>\
@@ -68,8 +68,8 @@ var MultiSelectTransfer = function (elem, data) {
         /*
          * Cria evento de filtro ao digitar nos input's
          */
-        filter('#multi-select-transfer #mst-origin', '#multi-select-transfer #mst-filter-origin');
-        filter('#multi-select-transfer #mst-destiny', '#multi-select-transfer #mst-filter-destiny');
+        filter('.multi-select-transfer .mst-origin', '.multi-select-transfer .mst-filter-origin');
+        filter('.multi-select-transfer .mst-destiny', '.multi-select-transfer .mst-filter-destiny');
     };
 
     /**
@@ -86,7 +86,7 @@ var MultiSelectTransfer = function (elem, data) {
      * Seleciona todas as options da select origin
      */
     this.originSelect = function () {
-        var options = document.querySelector('#mst-origin').options;
+        var options = element.querySelector('.mst-origin').options;
 
         for (key in options) {
             options[key].selected = true;
@@ -107,7 +107,7 @@ var MultiSelectTransfer = function (elem, data) {
      * Seleciona todas as options da select destiny
      */
     this.destinySelect = function () {
-        var options = document.querySelector('#mst-destiny').options;
+        var options = element.querySelector('.mst-destiny').options;
 
         for (key in options) {
             options[key].selected = true;
@@ -126,8 +126,8 @@ var MultiSelectTransfer = function (elem, data) {
                 options += '<option value="' + data.origin[key]['value'] + '">' + data.origin[key]['name'] + '</option>';
             }
 
-            document.querySelector('#multi-select-transfer #mst-origin').innerHTML = options;
-            sortSelect('mst-origin');
+            element.querySelector('.multi-select-transfer .mst-origin').innerHTML = options;
+            sortSelect('.mst-origin');
         }
     };
 
@@ -143,17 +143,17 @@ var MultiSelectTransfer = function (elem, data) {
                 options += '<option value="' + data.destiny[key]['value'] + '">' + data.destiny[key]['name'] + '</option>';
             }
 
-            document.querySelector('#multi-select-transfer #mst-destiny').innerHTML = options;
-            sortSelect('mst-destiny');
+            element.querySelector('.multi-select-transfer .mst-destiny').innerHTML = options;
+            sortSelect('.mst-destiny');
         }
     };
 
     /**
      * Ordena as options
-     * @param {string} id_select ID do select
+     * @param {string} id_select Classe do select
      */
     var sortSelect = function (id_select) {
-        var select = document.querySelector('#' + id_select)
+        var select = element.querySelector(id_select)
         var array = new Array();
 
         for (var i = 0; i < select.options.length; i++) {
@@ -178,12 +178,12 @@ var MultiSelectTransfer = function (elem, data) {
 
     /**
      * Move options selecionadas
-     * @param {string} id_origem ID da select de origim
-     * @param {string} id_destino ID da select de destino
+     * @param {string} id_origem Identificador da select de origim
+     * @param {string} id_destino Identificador da select de destino
      */
     var transferOptions = function (id_origem, id_destino) {
-        var origem = document.getElementById(id_origem);
-        var destino = document.getElementById(id_destino);
+        var origem = element.querySelector(id_origem);
+        var destino = element.querySelector(id_destino);
 
         while (origem.selectedIndex >= 0) {
 
@@ -209,7 +209,7 @@ var MultiSelectTransfer = function (elem, data) {
      * Adiciona evento de mover option do select origin para destiny
      */
     var doubleClickOriginOption = function () {
-        var options = document.querySelectorAll('#mst-origin option');
+        var options = element.querySelectorAll('.mst-origin option');
 
         for (key in options) {
             try {
@@ -221,12 +221,12 @@ var MultiSelectTransfer = function (elem, data) {
 
     /**
      * Ações executada ao dar duplo click em um option
-     * #mst-origin option
+     * .mst-origin option
      */
     var eventDoubleClickOriginOption = function () {
         this.selected = true;
-        transferOptions('mst-origin', 'mst-destiny');
-        sortSelect('mst-destiny');
+        transferOptions('.mst-origin', '.mst-destiny');
+        sortSelect('.mst-destiny');
 
         // Adiciona novamente evento pois os options foram removidos e reordenados
         doubleClickDestinyOption();
@@ -236,7 +236,7 @@ var MultiSelectTransfer = function (elem, data) {
      * "Adiciona" evento de mover option do select destiny para origin
      */
     var doubleClickDestinyOption = function () {
-        var options = document.querySelectorAll('#mst-destiny option');
+        var options = element.querySelectorAll('.mst-destiny option');
 
         try {
             for (key in options) {
@@ -248,12 +248,12 @@ var MultiSelectTransfer = function (elem, data) {
 
     /**
      * Ações executada ao dar duplo click em um option
-     * #mst-destiny option
+     * .mst-destiny option
      */
     var eventDoubleClickDestinyOption = function () {
         this.selected = true;
-        transferOptions('mst-destiny', 'mst-origin');
-        sortSelect('mst-origin');
+        transferOptions('.mst-destiny', '.mst-origin');
+        sortSelect('.mst-origin');
 
         // Adiciona novamente evento pois os options foram removidos e reordenados
         doubleClickOriginOption();
@@ -263,9 +263,9 @@ var MultiSelectTransfer = function (elem, data) {
      * Evento ao clicar remove options selecionadas de origin para destiny
      */
     var addOption = function () {
-        document.querySelector('#multi-select-transfer #mst-select-add').onclick = function () {
-            transferOptions('mst-origin', 'mst-destiny');
-            sortSelect('mst-destiny');
+        element.querySelector('.multi-select-transfer .mst-select-add').onclick = function () {
+            transferOptions('.mst-origin', '.mst-destiny');
+            sortSelect('.mst-destiny');
             doubleClickDestinyOption();
         };
     };
@@ -274,9 +274,9 @@ var MultiSelectTransfer = function (elem, data) {
      * Evento ao clicar remove options selecionadas em destiny para origin
      */
     var remOption = function () {
-        document.querySelector('#multi-select-transfer #mst-select-rem').onclick = function () {
-            transferOptions('mst-destiny', 'mst-origin');
-            sortSelect('mst-origin');
+        element.querySelector('.multi-select-transfer .mst-select-rem').onclick = function () {
+            transferOptions('.mst-destiny', '.mst-origin');
+            sortSelect('.mst-origin');
             doubleClickOriginOption();
         };
     };
@@ -285,15 +285,15 @@ var MultiSelectTransfer = function (elem, data) {
      * Evento ao clicar remove todas options origin para destiny
      */
     var addAllOption = function () {
-        document.querySelector('#multi-select-transfer #mst-select-add-all').onclick = function () {
-            var options = document.querySelector('#mst-origin').options;
+        element.querySelector('.multi-select-transfer .mst-select-add-all').onclick = function () {
+            var options = element.querySelector('.mst-origin').options;
 
             for (key in options) {
                 options[key].selected = true;
             }
 
-            transferOptions('mst-origin', 'mst-destiny');
-            sortSelect('mst-destiny');
+            transferOptions('.mst-origin', '.mst-destiny');
+            sortSelect('.mst-destiny');
             doubleClickDestinyOption();
         };
     };
@@ -302,15 +302,15 @@ var MultiSelectTransfer = function (elem, data) {
      * Remove todas as options de destiny e adiciona em origin
      */
     var remAllOption = function () {
-        document.querySelector('#multi-select-transfer #mst-select-rem-all').onclick = function () {
-            var options = document.querySelector('#mst-destiny').options;
+        element.querySelector('.multi-select-transfer .mst-select-rem-all').onclick = function () {
+            var options = element.querySelector('.mst-destiny').options;
 
             for (key in options) {
                 options[key].selected = true;
             }
 
-            transferOptions('mst-destiny', 'mst-origin');
-            sortSelect('mst-origin');
+            transferOptions('.mst-destiny', '.mst-origin');
+            sortSelect('.mst-origin');
             doubleClickOriginOption();
         };
     };
@@ -321,11 +321,11 @@ var MultiSelectTransfer = function (elem, data) {
      * @param string input Seletor do input
      */
     var filter = function (select, input) {
-        document.querySelector(input).onkeyup = function () {
+        element.querySelector(input).onkeyup = function () {
             var search = this.value;
 
             var obj_search = new RegExp(search, 'i');
-            var options = document.querySelector(select).options;
+            var options = element.querySelector(select).options;
 
             for (key in options) {
                 try {
